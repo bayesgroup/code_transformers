@@ -1,0 +1,20 @@
+For license information, see LICENSE.txt files in the subdirectories of the repository.
+
+Copyright (c) 2021 Nadezhda Chirkova, Sergey Troshin
+
+Parts of this software are based on the following repositories:
+* https://github.com/wasiahmad/NeuralCodeSum
+* https://github.com/facebookresearch/code-prediction-transformer
+* https://github.com/google-research-datasets/eth_py150_open
+* https://ieee-dataport.org/open-access/deduplication-index-big-code-datasets
+* https://github.com/OpenNMT/OpenNMT-py
+* https://github.com/facebookresearch/DrQA
+Corresponding license files are put in the subdirectories of the repository.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
