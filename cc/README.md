@@ -32,12 +32,12 @@ In case you only wish to train a __baseline__ for your work (and not to repeat o
 To train a model, e.g. with sequential relative attention, use `train.py` (select `py` or `js`):
 
 ```(bash)
-python3 train.py --name baseline --work_dir exp_dir --project project_name --base_dir ../data/processed_data_{py,js}/struct_names --num_workers 4 --gpus 1 --use_test --use_seq | tee log.txt
+python3 train.py --name baseline --work_dir exp_dir --project project_name --base_dir ../data/processed_data_{py,js}/struct_names --num_workers 4 --gpus 1 --use_seq | tee log.txt
 ```
 
 We also suggest passing flag `--use_anonymized` to the `train.py`, in order to use our [anonymization of the out-of-vocabulary identifiers](https://arxiv.org/abs/2010.12663). This simple technique will increase the test quality by several percent.
 
-All hyperparameters are given in the default options of arguments in `train.py` and `model.py` scripts. The best model checkpoint will be saved in `exp_dir/project_name/`. The validation performance is logged after each training epoch. Test performance is logged for the best model after the training. To log on the `val` partition instead of `test`, remove `--use_test` flag.
+All hyperparameters are given in the default options of arguments in `train.py` and `model.py` scripts. The best model checkpoint will be saved in `exp_dir/project_name/`. The validation performance is logged after each training epoch. Test performance is logged for the best model after the training. To log on the `test` partition instead of `val` at the end of an epoch, add `--use_test` flag.
     
 For different models from the empirical study paper, pass:
 1. `--use_pos_embed` for Sequential positional ebeddings
