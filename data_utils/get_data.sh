@@ -8,6 +8,8 @@ if [[ $dataset = "py" ]]
 then
     wget http://files.srl.inf.ethz.ch/data/py150.tar.gz
     tar -zxf py150.tar.gz
+    wget http://files.srl.inf.ethz.ch/data/py150_files.tar.gz
+    tar -zxf py150_files.tar.gz
 fi
 
 if [[ $dataset = "js" ]]

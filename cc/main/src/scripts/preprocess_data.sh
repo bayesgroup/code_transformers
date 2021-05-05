@@ -6,7 +6,7 @@
 # Text (names dir)
 
 set -e
-PYTHON=`/usr/bin/env python3`
+PYTHON="python3"
 
 for data_type in py js
 do

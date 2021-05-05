@@ -29,7 +29,7 @@ do
             $args \
             $common_args
 
-        sbatch -c 4 --gpus 1 src/srun.sh \
+        bash src/srun.sh \
             --name names.$relative \
             --base_dir $data_dir/names \
             --only_values \

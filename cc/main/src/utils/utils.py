@@ -16,7 +16,7 @@ import re
 from collections import OrderedDict
 from time import gmtime, strftime
 
-from src.utils import constants
+from . import constants
 
 
 def line_positions(file_path):
