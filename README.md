@@ -1,7 +1,7 @@
 # Transformers for variable misuse, function naming and code completion tasks
 
 The official PyTorch implementation of:
-* __Empirical Study of Transformers for Source Code__ [[arxiv](https://arxiv.org/abs/2010.07987)]
+* __Empirical Study of Transformers for Source Code__ [[arxiv](https://arxiv.org/abs/2010.07987)] (accepted to [ESEC/FSE'21](https://2021.esec-fse.org/))
 * __A Simple Approach for Handling Out-of-Vocabulary Identifiers in Deep Learning for Source Code__ [[arxiv](https://arxiv.org/abs/2010.12663)] (accepted to [NAACL'21](https://2021.naacl.org/))
 
 The repository also contains code for resplitting [Python150k](https://www.sri.inf.ethz.ch/py150) and [JavaScript150k](https://www.sri.inf.ethz.ch/js150) datasets (with splitting by repository, removing duplicates and the redistributable version of Py150k).
