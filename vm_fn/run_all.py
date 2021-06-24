@@ -37,11 +37,11 @@ assert args.eval_part in {"test", "val"}, "Eval_part should be either test or va
 
 if not args.exp_type in ["exp1", "exp2a_full", "exp2a_ano", "exp2b_full", "exp2b_ano",]:
     raise ValueError("Check exp_type!")
-# Exps (according to March'21 version of the paper):
-# * exp1: Figure 2 and Table 3 in the paper
-# * exp2a_full: Figure 4 in the paper (+tuning hyperparameters with --tune_hypers flag)
+# Exps:
+# * exp1: Figure 3 and Table 5 in the paper
+# * exp2a_full: Figure 2 in the paper (+tuning hyperparameters with --tune_hypers flag)
 # * exp2a_ano: Figure 5 in the appendix
-# * exp2b_full: Table 5 in the paper
+# * exp2b_full: Table 3 in the paper
     
 if args.test:
     action = print
@@ -73,13 +73,14 @@ com_begin = "main/"+args.task+"/train.py --data_dir preprocessed_data_"+\
     
 if args.exp_type == "exp1":
     foldername = "_dif_input"
+    hkey = "%s_%s"%(args.task, args.lang) # to extract hyperparameters
     commands = \
-    [foldername+args.comment_add+"/"+standard_data+" --comment parallel --use_code_type True --max_relative_pos 0 --src_pos_emb True",\
-    foldername+args.comment_add+"/"+ano_data+" --comment anovalues --use_code_type True --max_relative_pos 0 --src_pos_emb True",\
-    foldername+args.comment_add+"/"+onlytypes+standard_targets+" --comment onlytypes --use_code_type False --max_relative_pos 0 --src_pos_emb True",\
-    foldername+args.comment_add+"/"+onlyvalues+standard_targets+" --comment onlyvalues --use_code_type False --max_relative_pos 0 --src_pos_emb True",\
-    foldername+args.comment_add+"/"+ano_data+" --comment anovaluesbag --use_code_type True --max_relative_pos 0 --src_pos_emb False",\
-    foldername+args.comment_add+"/"+standard_data+" --comment parallel_bag --use_code_type True --max_relative_pos 0 --src_pos_emb False",\
+    [foldername+args.comment_add+"/"+standard_data+" --comment parallel --use_code_type True --max_relative_pos %d"%hypers["sra_max_rel_pos"][hkey],\
+    foldername+args.comment_add+"/"+ano_data+" --comment anovalues --use_code_type True --max_relative_pos %d"%hypers["sra_max_rel_pos"][hkey],\
+    foldername+args.comment_add+"/"+onlytypes+standard_targets+" --comment onlytypes --use_code_type False --max_relative_pos %d"%hypers["sra_max_rel_pos"][hkey],\
+    foldername+args.comment_add+"/"+onlyvalues+standard_targets+" --comment onlyvalues --use_code_type False --max_relative_pos %d"%hypers["sra_max_rel_pos"][hkey],\
+    foldername+args.comment_add+"/"+ano_data+" --comment anovaluesbag --use_code_type True --max_relative_pos 0",\
+    foldername+args.comment_add+"/"+standard_data+" --comment parallel_bag --use_code_type True --max_relative_pos 0",\
     ]
 elif args.exp_type in {"exp2a_full", "exp2a_ano"}:
     if args.exp_type == "exp2a_full":
@@ -102,7 +103,7 @@ elif args.exp_type in {"exp2a_full", "exp2a_ano"}:
     # seq pos emb
     commands.append(foldername+args.comment_add+"/"+data+" --use_code_type True --max_relative_pos 0 --src_pos_emb True --comment seq_pos_emb")
     if args.tune_hypers:
-        commands.append(foldername+args.comment_add+"/"+data+" --use_code_type True --max_relative_pos 0 --src_pos_enc True --comment seq_pos_enc")
+        commands.append(foldername+args.comment_add+"/"+data+" --use_code_type True --max_relative_pos 0 --src_pos_enc True --comment seq_pos_emb")
     # tree rel attn
     command = foldername+args.comment_add+"/"+data+tra_data+" --use_code_type True --max_relative_pos 0 --src_pos_emb False --use_tree_relative_attn True --rel_dict_filename rel_dict.txt --comment tree_rel_attn"
     if not args.tune_hypers:
@@ -151,13 +152,14 @@ elif args.exp_type in {"exp2b_full"}:
     hkey = "%s_%s"%(args.task, args.lang) # to extract hyperparameters
     es = "2types" if hypers["ggnns_n_edge_types"][hkey] == 2 else "1type"
     commands = [\
-    foldername+args.comment_add+"/"+data+" --comment seq_pos_enc --use_code_type True  --src_pos_emb True",\
-    foldername+args.comment_add+"/"+data+tra_data+" --comment tree_rel_attn --use_code_type True --src_pos_emb False --use_tree_relative_attn True --rel_dict_filename rel_dict.txt --max_rel_vocab_size %d"%hypers["tra_rel_dict_size"][hkey],\
-    foldername+args.comment_add+"/"+data+tpe_data+" --comment tree_pos_enc --use_code_type True --src_pos_emb False --use_tree_pos_enc True --max_path_width %d --max_path_depth %d"%(hypers["tpe_max_width"][hkey], hypers["tpe_max_depth"][hkey]),\
-    foldername+args.comment_add+"/"+data+" --comment sandwich_gnn --use_code_type True --src_pos_emb False --use_ggnn_layers True --n_edge_types %d --ggnn_first %r --nlayers %d --train_src_edges edges_%s_train.txt --dev_src_edges edges_%s_%s.txt"%\
+    foldername+args.comment_add+"/"+data+" --comment seq_pos_emb --use_code_type True  --src_pos_emb True --max_relative_pos %d"%hypers["sra_max_rel_pos"][hkey],\
+    foldername+args.comment_add+"/"+data+tra_data+" --comment tree_rel_attn --use_code_type True --src_pos_emb False --use_tree_relative_attn True --rel_dict_filename rel_dict.txt --max_rel_vocab_size %d --max_relative_pos %d"%(hypers["tra_rel_dict_size"][hkey], hypers["sra_max_rel_pos"][hkey]),\
+    foldername+args.comment_add+"/"+data+tpe_data+" --comment tree_pos_enc --use_code_type True --src_pos_emb False --use_tree_pos_enc True --max_path_width %d --max_path_depth %d --max_relative_pos %d"%(hypers["tpe_max_width"][hkey], hypers["tpe_max_depth"][hkey], hypers["sra_max_rel_pos"][hkey]),\
+    foldername+args.comment_add+"/"+data+" --comment sandwich_gnn --use_code_type True --src_pos_emb False --use_ggnn_layers True --n_edge_types %d --ggnn_first %r --nlayers %d --train_src_edges edges_%s_train.txt --dev_src_edges edges_%s_%s.txt --max_relative_pos %d"%\
                        (hypers["ggnns_n_edge_types"][hkey], \
                         hypers["ggnns_ggnn_first"][hkey], \
-                        hypers["ggnns_nlayers"][hkey], es, es, args.eval_part),\
+                        hypers["ggnns_nlayers"][hkey], es, es, args.eval_part, \
+                        hypers["sra_max_rel_pos"][hkey]),\
     ]
     if args.exp_type == "exp2b_ano":
         commands = [command+anovalues for command in commands]
@@ -166,4 +168,3 @@ run_command = "python " # if you need to specify additional python options, e. g
 for command in commands[:args.max_commands]:
     full_command = run_command + com_begin + command + task_opts
     action(full_command)
-
