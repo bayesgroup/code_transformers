@@ -92,10 +92,10 @@ Options:
 * `--tune_hypers`: specify if you wish to tune hyperparameters; do not specify if you want to use predefined hyperparameters
 
 Types of experiments (`--exp_type` option):
-- `exp1`: Figure 2 and Table 1 in the paper (train vanilla Trasformer on input data of different kinds: parallel sequence of (type, value) pairs, only values or only types, parallel sequence with anonymized values etc.)
-- `exp2a_full`: Figure 4, top row in the paper (train different Transformer modifications on parallel data without anonymization). If flag `--tune_hypers` is used, grid search is run, otherwise only training with optimal hyperparameters is performed
-- `exp2a_ano`: Figure 4, bottom row in the paper (train different Transformer modifications on parallel data with anonymization)
-- `exp2b_full`: Table 2 in the paper (combining sequential relative attetion with other Transformer modifications)
+- `exp1`: Figure 3 and Table 5 in the paper (train vanilla Trasformer on input data of different kinds: parallel sequence of (type, value) pairs, only values or only types, parallel sequence with anonymized values etc.)
+- `exp2a_full`: Figure 2 in the paper (train different Transformer modifications on parallel data without anonymization). If flag `--tune_hypers` is used, grid search is run, otherwise only training with optimal hyperparameters is performed
+- `exp2a_ano`: Figure 5 in the Appendix (train different Transformer modifications on parallel data with anonymization)
+- `exp2b_full`: Table 3 in the paper (combining sequential relative attetion with other Transformer modifications)
 
 The `run_all.py` script generates commands like `python main/{vm|fn}/train.py ...`. To insert additional specifications into commands, e. g. use `sbatch`/`bsub` or set `CUDA_VISIBLE_DEVICES`, modify the last lines of the `run.py`. You can also specify additional training flags there, e. g. `--print_fq` (by default evaluation is performed after each epoch) or `--save_fq` (by default only the best model is saved).  
 
