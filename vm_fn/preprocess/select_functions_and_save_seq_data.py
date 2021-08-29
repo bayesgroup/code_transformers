@@ -301,6 +301,7 @@ def gen_examples(fun, lang, max_bugs_per_fun):
                 false_other_pos.append(pos)
             elif pos != bug_pos:
                 true_other_pos.append(pos)
+        replace_pos = random.choice(false_other_pos)
         target.append([bug_pos, replace_pos, true_other_pos])
     
     return var_positions, target
