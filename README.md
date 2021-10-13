@@ -36,22 +36,36 @@ Parts of this code are based on the following repositories:
 
 If you found this code useful, please cite our papers
 ```
-@misc{chirkova2020empirical,
-      title={Empirical Study of Transformers for Source Code}, 
-      author={Nadezhda Chirkova and Sergey Troshin},
-      year={2020},
-      eprint={2010.07987},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
+@inproceedings{10.1145/3468264.3468611,
+    author = {Chirkova, Nadezhda and Troshin, Sergey},
+    title = {Empirical Study of Transformers for Source Code},
+    year = {2021},
+    isbn = {9781450385626},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA},
+    url = {https://doi.org/10.1145/3468264.3468611},
+    doi = {10.1145/3468264.3468611},
+    booktitle = {Proceedings of the 29th ACM Joint Meeting on European Software Engineering Conference and Symposium on the Foundations of Software Engineering},
+    pages = {703–715},
+    numpages = {13},
+    keywords = {code completion, neural networks, transformer, function naming, variable misuse detection},
+    location = {Athens, Greece},
+    series = {ESEC/FSE 2021}
 }
 ```
 
 ```
-@inproceedings{chirkova2020simple,
-      title={A Simple Approach for Handling Out-of-Vocabulary Identifiers in Deep Learning for Source Code}, 
-      author={Nadezhda Chirkova and Sergey Troshin},
-      booktitle={North American Chapter of the Association for Computational Linguistics}
-      year={2021}, 
+@inproceedings{chirkova-troshin-2021-simple,
+    title = "A Simple Approach for Handling Out-of-Vocabulary Identifiers in Deep Learning for Source Code",
+    author = "Chirkova, Nadezhda and Troshin, Sergey",
+    booktitle = "Proceedings of the 2021 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+    month = jun,
+    year = "2021",
+    address = "Online",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2021.naacl-main.26",
+    doi = "10.18653/v1/2021.naacl-main.26",
+    pages = "278--288",
 }
 ```
 
