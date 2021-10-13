@@ -71,9 +71,9 @@ Use `--test` flag to check the generated command and remove flag to run the comm
 
 We also suggest adding flag `--anonymize order` to the generated command for the VM task, in order to use our [anonymization of the out-of-vocabulary identifiers](https://arxiv.org/abs/2010.12663). This simple technique will increase the test quality by several percent.
 
-## Reproducing the experiments from the empirical study paper
+## Reproducing experiments from the empirical study paper
 
-To train models, you can use `run_all.py` script. This script generates training commands for all experiments in the paper and stores hyperparameters for different model-dataset pairs.
+To train models, you can use `run_all.py` script. This script generates training commands for all experiments in the [paper](https://arxiv.org/abs/2010.07987) and stores hyperparameters for different model-dataset pairs.
 
 Usage: 
 
@@ -103,7 +103,26 @@ We also provide `run_eval.py` script that runs `train.py` in the test-only mode 
 
 For ensembling, see scripts `main/{vm|fn}/ensembles.py`.
 
-The instructions for reproducing the experients from the OOV anonymization paper will be released soon.
+## Reproducing experiments from the OOV anonymization paper
+
+We provide `run_oov.py` script that generates training commands for different models considered in the [paper](https://arxiv.org/abs/2010.12663), for the VM task (FN task is not considered in this paper). You can use this script to reproduce the results from Figure 2. You can modify function `get_run_command(command)` in the `run_oov.py` script and insert options needed for training in your system, e.g. set CUDA_VISIBLE_DEVICES or use sbatch.
+
+Usage:
+
+```(bash)
+python run_oov.py --model {standard|order|random} --lang {py|js} --vocab_sizes 50000 [--test] [--eval_part {test|val}] [--num_runs 1] [--label run] [--comment_add your_comment]
+```
+
+Main options:
+* `--model` (required): `standard`: baseline model with replacing OOVs with UNK token; `order`: the proposed approach with order-based anonymization of OOVs; `random`: the proposed approach with random-based anonymization (performs a bit worse than order-based anonymization)
+* `--lang` (required): Python150k dataset (`py`) or JavaScript150k dataset (`js`). Make sure you have done _basic_ data propocessing described above (tree data is not needed here)
+* `--vocab_sizes`: the sizes of vocabularies, you can specify different sizes separated by comma, e.g. `1000,10000,50000`
+* `--test`: if specified, the commands will be only printed so you can check them; if not specified, the commands will be run
+
+Additional options:
+* `--eval_part`: which partition to evaluate on during training (options: `test`, `val`, default `test`)
+* `--num_runs`: how many models to train (default: 1)
+* `--label` and `--comment_add`: the logs and models are saved to a folder named `logs/{label}/{exp_group}/{exp_folder}{comment_add}`, and you can specify a general label for your current experiments (default label if `run`) and an additional comment for a partiular run (default empty)
 
 ## Directory structure
 * `preprocess`: scripts for preprocessing data for VM and FN tasks
