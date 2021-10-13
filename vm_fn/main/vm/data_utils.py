@@ -12,33 +12,42 @@ import multiprocessing as mp
 import torch
 import json
 
-def anonymize(code_tokens, dct, mode="order"):
+def anonymize(code_tokens, dct, mode="order", ano_vocab_size=1000):
     """
     Anonymizes out-of-vocabulary tokens
     code_tokens: list of strings
     dct: dictionary of tokens (must support in operation: token in dct)
     mode: "order": a, b, b, b, c, c -> var1, var2, var2, var2, var3, var3
           "freq": a, b, b, b, c, c -> var3, var1, var1, var1, var2, var2
+          "random": assign varX randomly
+    ano_vocab_size: the size of VarX vocabulary, needed only when mode=="random"
     """
-    word2num = {}
+    tok2id = {}
     freqs = {}
+    oov_tokens = set()
     for token in code_tokens:
          if not token in dct:
             if mode == "order":
-                if not token in word2num:
-                    word2num[token] = len(word2num)
-            else:
+                if not token in tok2id:
+                    tok2id[token] = len(tok2id)
+            elif mode == "freq":
                 if not token in freqs:
                     freqs[token] = 0
                 freqs[token] += 1
+            else:
+                oov_tokens.add(token)
     if mode == "freq":
-        word2num = {w:n for n, (w, _) in enumerate(\
+        tok2id = {w:n for n, (w, _) in enumerate(\
                            sorted(freqs.items(), key=lambda x:x[1], \
                            reverse=True))}
+    if mode == "random":
+        tok2id = {token:i for token, i in zip(\
+             np.random.permutation(list(oov_tokens)),\
+             np.random.permutation(np.arange(ano_vocab_size)))}
     new_tokens = []
     for token in code_tokens:
         if not token in dct:
-            new_tokens.append("<var%d>"%word2num[token])
+            new_tokens.append("<var%d>"%tok2id[token])
         else:
             new_tokens.append(token)
     return new_tokens
@@ -169,7 +178,8 @@ class VarmisuseDataset(Dataset):
             # random-based anonymization could be done beforehands
             ex_obj["code"].tokens = anonymize(ex_obj["code"].tokens, \
                                               self.model.src_dict, \
-                                              self.args.anonymize)
+                                              self.args.anonymize,
+                                              self.args.max_src_len)
         
         vector = vectorize(ex_obj, self.model)
         vector["scope"] = torch.LongTensor([int(pos) for pos in elems[0].split("_")])
