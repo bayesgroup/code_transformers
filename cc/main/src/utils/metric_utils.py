@@ -19,7 +19,7 @@ def _mrr(pred, y_true, oov, k=10):
     if len(r) == 0:
         return torch.tensor(0.0, device=y_true.device), torch.tensor(0, device=y_true.device)
     ln = y_true.numel()
-    return (1.0 / (r + 1.0)).sum(), torch.tensor(ln, device=y_true.device)
+    return torch.tensor((1.0 / (r + 1.0)).sum(), device=y_true.device), torch.tensor(ln, device=y_true.device)
 
 def mrr(y_pred, y, ext, vocab, use_pointer=False):
     """
